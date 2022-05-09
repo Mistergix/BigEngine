@@ -8,7 +8,7 @@
 
 #include "object.h"
 #include "component.h"
-
+#include "components/transform.h"
 
 
 class GameObject : public Object {
@@ -28,6 +28,7 @@ public:
     [[nodiscard]] const bool& isStatic() const;
     std::string& tag();
     [[nodiscard]] const std::string& tag() const;
+    Transform* transform();
 private:
     void Init(std::string name, std::vector<Component*> components);
     bool _activeSelf;

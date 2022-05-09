@@ -82,4 +82,8 @@ const std::string &GameObject::tag() const {
     return _tag;
 }
 
+Transform *GameObject::transform() {
+    return GetComponent<Transform>();
+}
+
 
