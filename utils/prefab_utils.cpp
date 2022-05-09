@@ -4,8 +4,10 @@
 
 #include <iostream>
 #include "prefab_utils.h"
+#include "../editor/editor.h"
 
 GameObject PrefabUtils::InstantiatePrefab(const std::string& guid) {
-    std::cout << guid << std::endl;
+    auto jPrefab =  Editor::GetPrefabJson(guid);
+    std::cout << "TODO populate prefab with data then modifications" << std::endl;
     return GameObject();
 }

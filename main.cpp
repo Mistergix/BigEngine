@@ -10,7 +10,7 @@
 void HandleInput();
 
 int main() {
-    Editor editor;
+    Editor::Init();
 
 
     std::string scenePath = "Assets/Scenes/SceneTest.scene";
