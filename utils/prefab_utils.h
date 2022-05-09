@@ -11,7 +11,7 @@
 
 class PrefabUtils {
 public:
-    static GameObject InstantiatePrefab(std::string path);
+    static GameObject InstantiatePrefab(const std::string& path);
 };
 
 

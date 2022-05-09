@@ -3,17 +3,9 @@
 //
 
 #include "editor.h"
-#include "../core/config/project_settings.h"
-
-#include <fstream>
-#include <iostream>
-#include <filesystem>
-namespace fs = std::filesystem;
-
-
+#include "assets_importer.h"
 
 
 Editor::Editor() {
-    auto assetPath = ProjectSettings::GetAssetsPath();
-
+   _files = AssetsImporter::ImportMetaFiles();
 }

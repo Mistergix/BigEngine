@@ -4,11 +4,15 @@
 #include "core/game_object.h"
 #include "core/components/transform.h"
 #include "scenes/scene.h"
+#include "editor/editor.h"
 
 
 void HandleInput();
 
 int main() {
+    Editor editor;
+
+
     std::string scenePath = "Assets/Scenes/SceneTest.scene";
     Scene scene(scenePath);
     std::cout << scene.name() << std::endl;
