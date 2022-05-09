@@ -1,17 +1,21 @@
 #include <iostream>
 #include "core/game_time.h"
+#include "Math/Matrix4.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Vector4.hpp"
 
 
 void HandleInput();
 
 int main() {
+
     Time time;
     auto isRunning = true;
     while(isRunning){
         HandleInput();
-        LogicUpdate();
+        /*LogicUpdate();
         PhysicsUpdate();
-        Render();
+        Render();*/
 
         time.UpdateTime();
         if(time.CurrentTime() > 10.0){
