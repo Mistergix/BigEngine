@@ -7,9 +7,33 @@
 
 
 #include "object.h"
+#include "component.h"
+
+
 
 class GameObject : public Object {
-
+public:
+    GameObject();
+    GameObject(std::string name);
+    GameObject(std::string name, std::vector<Component*> components);
+    template <typename T>
+    void AddComponent();
+    bool CompareTag(const std::string& tag);
+    template <typename T>
+    T* GetComponent();
+    void SetActive(bool active);
+    bool& activeSelf();
+    [[nodiscard]] const bool& activeSelf() const;
+    bool& isStatic();
+    [[nodiscard]] const bool& isStatic() const;
+    std::string& tag();
+    [[nodiscard]] const std::string& tag() const;
+private:
+    void Init(std::string name, std::vector<Component*> components);
+    bool _activeSelf;
+    bool _isStatic;
+    std::string _tag;
+    std::vector<Component*> _components;
 };
 
 

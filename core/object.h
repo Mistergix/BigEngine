@@ -5,7 +5,8 @@
 #ifndef BIG_ENGINE_OBJECT_H
 #define BIG_ENGINE_OBJECT_H
 
-#include <xstring>
+#include <string>
+#include <vector>
 
 class Object {
 public:

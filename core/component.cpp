@@ -3,3 +3,7 @@
 //
 
 #include "component.h"
+
+void Component::Process() {
+
+}

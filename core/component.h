@@ -9,7 +9,8 @@
 #include "object.h"
 
 class Component : public Object{
-
+public:
+    virtual void Process();
 };
 
 

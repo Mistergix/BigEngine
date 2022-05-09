@@ -1,11 +1,19 @@
 #include <iostream>
 #include "core/game_time.h"
 #include "core/object.h"
+#include "core/game_object.h"
+#include "core/components/transform.h"
 
 
 void HandleInput();
 
 int main() {
+    GameObject go("Test GO");
+    std::cout << go.name() << std::endl;
+    if(go.GetComponent<Transform>()){
+        std::cout << "HAS TRANSFORM" << std::endl;
+    }
+    /*
     Time time;
     auto isRunning = true;
     while(isRunning){
@@ -18,7 +26,7 @@ int main() {
         if(time.CurrentTime() > 10.0){
             isRunning = false;
         }
-    }
+    }*/
     return 0;
 }
 
