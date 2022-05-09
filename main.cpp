@@ -1,5 +1,6 @@
 #include <iostream>
 #include "core/game_time.h"
+#include "core/object.h"
 
 
 void HandleInput();
