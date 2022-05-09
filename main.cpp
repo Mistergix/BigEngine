@@ -9,16 +9,10 @@
 void HandleInput();
 
 int main() {
-    std::string scenePath = "Assets/Scenes/SceneTest.json";
+    std::string scenePath = "Assets/Scenes/SceneTest.scene";
     Scene scene(scenePath);
     std::cout << scene.name() << std::endl;
 
-    /*
-    GameObject go("Test GO");
-    std::cout << go.name() << std::endl;
-    if(go.transform()){
-        std::cout << "HAS TRANSFORM" << std::endl;
-    }*/
     /*
     Time time;
     auto isRunning = true;

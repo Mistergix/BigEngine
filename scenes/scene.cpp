@@ -3,20 +3,22 @@
 //
 
 #include "scene.h"
-#include "../json.hpp"
-#include "fstream"
-#include <sstream>
-
-using json = nlohmann::json;
+#include "../utils/json_reader.h"
+#include "../utils/prefab_utils.h"
 
 #include <utility>
 #include <iostream>
 
 Scene::Scene(std::string path) {
     _path = std::move(path);
-    std::ifstream stream(_path);
-    json j = json::parse(stream);
+    auto j = JsonReader::GetJsonFile(_path);
     _name = j.at("name");
+
+    auto jPrefabs = j.at("prefabs");
+    for (int i = 0; i < jPrefabs.size(); ++i) {
+        auto jPrefab = jPrefabs.at(i);
+        auto instantiatedPrefab = PrefabUtils::InstantiatePrefab(jPrefab.at("source").at("guid"));
+    }
 }
 
 std::string &Scene::name() {

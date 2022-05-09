@@ -3,4 +3,4 @@ project(Big_Engine)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Big_Engine main.cpp core/game_time.cpp core/game_time.h core/object.cpp core/object.h core/game_object.cpp core/game_object.h core/component.cpp core/component.h core/components/transform.cpp core/components/transform.h json.hpp scenes/scene.cpp scenes/scene.h)
+add_executable(Big_Engine main.cpp core/game_time.cpp core/game_time.h core/object.cpp core/object.h core/game_object.cpp core/game_object.h core/component.cpp core/component.h core/components/transform.cpp core/components/transform.h utils/json.hpp scenes/scene.cpp scenes/scene.h utils/prefab_utils.cpp utils/prefab_utils.h utils/json_reader.cpp utils/json_reader.h editor/assets_importer.cpp editor/assets_importer.h editor/editor.cpp editor/editor.h core/config/project_settings.cpp core/config/project_settings.h)

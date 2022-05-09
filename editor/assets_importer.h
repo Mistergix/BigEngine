@@ -1,0 +1,14 @@
+//
+// Created by nicol on 09/05/2022.
+//
+
+#ifndef BIG_ENGINE_ASSETS_IMPORTER_H
+#define BIG_ENGINE_ASSETS_IMPORTER_H
+
+
+class AssetsImporter {
+
+};
+
+
+#endif //BIG_ENGINE_ASSETS_IMPORTER_H

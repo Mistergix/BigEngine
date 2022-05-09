@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include "../core/game_object.h"
 
 class Scene {
 public:
@@ -16,6 +17,7 @@ public:
 private:
     std::string _path;
     std::string _name;
+    std::vector<GameObject*> _objects;
 };
 
 

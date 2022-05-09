@@ -1,0 +1,22 @@
+{
+  "name": "Scene de Test",
+  "objects": [
+
+  ],
+  "prefabs" : [
+    {
+      "source" : {
+        "guid": "12"
+      },
+      "modifications": [
+        {
+          "target": {
+            "id": "oijkl"
+          },
+          "path": "localRotation.x",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}
