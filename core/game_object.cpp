@@ -7,6 +7,8 @@
 
 #include <utility>
 
+std::vector<GameObject *> GameObject::_allObjects;
+
 GameObject::GameObject() : GameObject("New Game Object"){
 }
 
@@ -24,11 +26,12 @@ void GameObject::Init(std::string name, std::vector<Component *> components) {
     _activeSelf = true;
     _isStatic = false;
     _tag = "Untagged";
-    ReplaceComponents(components);
+    ReplaceComponents(std::move(components));
     auto t = GetComponent<Transform>();
     if(!t){
         ADD_COMPONENT(Transform);
     }
+    GameObject::RegisterObject(this);
 }
 
 template<typename T>
@@ -127,5 +130,29 @@ void GameObject::ClearComponents() {
         ComponentTable::UnregisterComponent(component);
     }
     _components.clear();
+}
+
+std::vector<GameObject *> *GameObject::FindObjectsOfType(const std::string& className) {
+    auto components = ComponentTable::FindAllComponents(className);
+    auto* go = new std::vector<GameObject*>;
+    for (auto c : *components) {
+        go->push_back(c->gameObject());
+    }
+    return go;
+}
+
+std::vector<GameObject *> *GameObject::FindObjectsWithTag(const std::string &tag) {
+    auto* gos = new std::vector<GameObject*>;
+    for (auto go : _allObjects) {
+        if(go->CompareTag(tag)){
+            gos->push_back(go);
+        }
+    }
+    return gos;
+}
+
+void GameObject::RegisterObject(GameObject *pObject) {
+    std::cout << "Add " << pObject->name() << " to global list" << std::endl;
+    _allObjects.push_back(pObject);
 }
 

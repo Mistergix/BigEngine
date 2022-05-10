@@ -29,6 +29,7 @@ public:
     virtual void OnRelease();
 
     void SetGameObject(GameObject* go);
+    GameObject* gameObject();
 
 private:
     GameObject* _gameObject;

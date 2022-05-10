@@ -29,3 +29,7 @@ void Component::SetGameObject(GameObject *go) {
     _gameObject = go;
 }
 
+GameObject *Component::gameObject() {
+    return _gameObject;
+}
+

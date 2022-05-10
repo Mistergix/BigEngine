@@ -12,6 +12,7 @@
 #include "../utils/json.hpp"
 
 #define ADD_COMPONENT(NAME) AddComponent<NAME>(#NAME)
+#define FIND_OBJECTS_OF_TYPE(NAME) GameObject::FindObjectsOfType(#NAME)
 
 
 class GameObject : public Object {
@@ -33,6 +34,8 @@ public:
     [[nodiscard]] const std::string& tag() const;
     Transform* transform();
     void Deserialize(nlohmann::basic_json<> json) override;
+    static std::vector<GameObject*>* FindObjectsOfType(const std::string& className);
+    static std::vector<GameObject*>* FindObjectsWithTag(const std::string& tag);
 private:
     void Init(std::string name, std::vector<Component*> components);
     void AddComponentFromSerializedFile(nlohmann::basic_json<> json);
@@ -42,11 +45,15 @@ private:
     std::string _tag;
     std::vector<Component*> _components;
 
+    static std::vector<GameObject *> _allObjects;
+
     static void RegisterComponent(Component *pComponent, const std::string& className, GameObject *pObject);
 
     void ReplaceComponents(std::vector<Component *> vector1);
 
     void ClearComponents();
+
+    void RegisterObject(GameObject *pObject);
 };
 
 
