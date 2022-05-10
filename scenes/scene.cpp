@@ -7,7 +7,6 @@
 #include "../utils/prefab_utils.h"
 
 #include <utility>
-#include <iostream>
 
 Scene::Scene(std::string path) {
     _path = std::move(path);

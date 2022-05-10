@@ -3,3 +3,71 @@
 //
 
 #include "transform.h"
+
+REGISTER_DEFINITION_TYPE(Transform);
+
+void Transform::Deserialize(nlohmann::basic_json<> json) {
+    Component::Deserialize(json);
+
+}
+
+void Transform::ProcessWorldMatrix() {
+    Matrix4 temp;
+
+    m_world.setIdentity();
+
+    temp.setIdentity();
+    temp.setScale(m_scale);
+    m_world *= temp;
+
+
+    temp.setIdentity();
+    temp.setRotationX(m_rotation.x);
+    m_world *= temp;
+
+    temp.setIdentity();
+    temp.setRotationY(m_rotation.y);
+    m_world *= temp;
+
+    temp.setIdentity();
+    temp.setRotationZ(m_rotation.z);
+    m_world *= temp;
+
+
+    temp.setIdentity();
+    temp.setTranslation(m_position);
+    m_world *= temp;
+}
+
+void Transform::SetScale(const Vector3 &scale) {
+    m_scale = scale;
+    ProcessWorldMatrix();
+}
+
+void Transform::GetWorldMatrix(Matrix4 &world) {
+    world = m_world;
+}
+
+void Transform::SetPosition(const Vector3 &position) {
+    m_position = position;
+    ProcessWorldMatrix();
+}
+
+void Transform::SetRotation(const Vector3 &rotation) {
+    m_rotation = rotation;
+    ProcessWorldMatrix();
+}
+
+Vector3 Transform::GetPosition() {
+    return m_position;
+}
+
+Vector3 Transform::GetRotation() {
+    return m_rotation;
+}
+
+Vector3 Transform::GetScale() {
+    return m_scale;
+}
+
+

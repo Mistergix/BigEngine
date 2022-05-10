@@ -10,6 +10,9 @@
 void HandleInput();
 
 int main() {
+    // TODO destructors
+    // TODO main loop
+
     Editor::Init();
 
 

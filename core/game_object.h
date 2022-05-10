@@ -9,6 +9,7 @@
 #include "object.h"
 #include "component.h"
 #include "components/transform.h"
+#include "../utils/json.hpp"
 
 
 class GameObject : public Object {
@@ -29,8 +30,10 @@ public:
     std::string& tag();
     [[nodiscard]] const std::string& tag() const;
     Transform* transform();
+    void Deserialize(nlohmann::basic_json<> json) override;
 private:
     void Init(std::string name, std::vector<Component*> components);
+    void AddComponentFromSerializedFile(nlohmann::basic_json<> json);
     bool _activeSelf;
     bool _isStatic;
     std::string _tag;

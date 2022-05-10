@@ -86,4 +86,25 @@ Transform *GameObject::transform() {
     return GetComponent<Transform>();
 }
 
+void GameObject::Deserialize(nlohmann::basic_json<> json) {
+    Object::Deserialize(json);
+    name() = json.at("name");
+    tag() = json.at("tag");
+    activeSelf() = json.at("active");
+    isStatic() = json.at("static");
+
+    _components.clear();
+    auto jComponents = json.at("components");
+    for (const auto& jComponent : jComponents) {
+        AddComponentFromSerializedFile(jComponent);
+    }
+}
+
+void GameObject::AddComponentFromSerializedFile(nlohmann::basic_json<> jComponent) {
+    auto className = jComponent.at("class");
+    auto component = ComponentFactory::CreateInstance(className);
+    component->Deserialize(jComponent);
+    _components.push_back(component);
+}
+
 

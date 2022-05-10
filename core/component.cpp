@@ -4,6 +4,18 @@
 
 #include "component.h"
 
-void Component::Process() {
+void Component::OnRelease() {
+
+}
+
+void Component::OnPhysicsUpdate(float physicsDeltaTime) {
+
+}
+
+void Component::OnUpdate(float deltaTime) {
+
+}
+
+void Component::OnCreate() {
 
 }
