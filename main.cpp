@@ -10,11 +10,10 @@
 void HandleInput();
 
 int main() {
-    // TODO stocker le game object dans les components
+    // TODO main loop
+    // TODO destructors
     // TODO transforms children ?
     // TODO gérer les id dans les fichiers
-    // TODO destructors
-    // TODO main loop
 
     Editor::Init();
 
