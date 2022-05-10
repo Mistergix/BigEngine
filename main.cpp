@@ -17,6 +17,11 @@ void ErrorCallback(int error, const char* desc){
 }
 
 int main() {
+    // TODO main loop
+    // TODO destructors
+    // TODO transforms children ?
+    // TODO gérer les id dans les fichiers
+
     Editor::Init();
 
     if(!glfwInit()){
@@ -55,6 +60,15 @@ int main() {
     std::string scenePath = "Assets/Scenes/SceneTest.scene";
     Scene scene(scenePath);
     std::cout << scene.name() << std::endl;
+
+    auto gos = FIND_OBJECTS_OF_TYPE(Transform);
+    auto gosWithTag = GameObject::FindObjectsWithTag("Bibi");
+
+    std::cout << gos->size() << "of type Transform" <<  std::endl;
+
+    std::cout << gosWithTag->size() << "with tag bibi" <<  std::endl;
+
+    
 
     /*
     Time time;

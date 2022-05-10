@@ -7,6 +7,8 @@
 
 #include <utility>
 
+std::vector<GameObject *> GameObject::_allObjects;
+
 GameObject::GameObject() : GameObject("New Game Object"){
 }
 
@@ -24,17 +26,18 @@ void GameObject::Init(std::string name, std::vector<Component *> components) {
     _activeSelf = true;
     _isStatic = false;
     _tag = "Untagged";
-    _components = std::move(components);
+    ReplaceComponents(std::move(components));
     auto t = GetComponent<Transform>();
     if(!t){
-        AddComponent<Transform>();
+        ADD_COMPONENT(Transform);
     }
+    GameObject::RegisterObject(this);
 }
 
 template<typename T>
-void GameObject::AddComponent() {
+void GameObject::AddComponent(const std::string& className) {
     T* component = new T();
-    _components.push_back(component);
+    AddComponent(component, className);
 }
 
 bool GameObject::CompareTag(const std::string& tag) {
@@ -48,7 +51,7 @@ void GameObject::SetActive(bool active) {
 
 template<typename T>
 T *GameObject::GetComponent() {
-    // Replace vector with map ? because dynamic cast is expensive
+    // TODO  Replace vector with map ? because dynamic cast is expensive
     // https://stackoverflow.com/a/55608393
     T* result = nullptr;
     for(Component* comp : _components){
@@ -86,4 +89,70 @@ Transform *GameObject::transform() {
     return GetComponent<Transform>();
 }
 
+void GameObject::Deserialize(nlohmann::basic_json<> json) {
+    Object::Deserialize(json);
+    name() = json.at("name");
+    tag() = json.at("tag");
+    activeSelf() = json.at("active");
+
+    ClearComponents();
+    auto jComponents = json.at("components");
+    for (const auto& jComponent : jComponents) {
+        AddComponentFromSerializedFile(jComponent);
+    }
+}
+
+void GameObject::AddComponentFromSerializedFile(nlohmann::basic_json<> jComponent) {
+    auto className = jComponent.at("class");
+    auto component = ComponentFactory::CreateInstance(className);
+    component->Deserialize(jComponent);
+    AddComponent(component, className);
+}
+
+void GameObject::ReplaceComponents(std::vector<Component *> components) {
+    ClearComponents();
+    _components = std::move(components);
+}
+
+void GameObject::AddComponent(Component* component, const std::string& className) {
+    _components.push_back(component);
+    component->SetGameObject(this);
+    GameObject::RegisterComponent(component, className, this);
+}
+
+
+void GameObject::RegisterComponent(Component *pComponent, const std::string& className, GameObject *pObject) {
+    ComponentTable::RegisterComponent(pComponent, className);
+}
+
+void GameObject::ClearComponents() {
+    for (auto component : _components) {
+        ComponentTable::UnregisterComponent(component);
+    }
+    _components.clear();
+}
+
+std::vector<GameObject *> *GameObject::FindObjectsOfType(const std::string& className) {
+    auto components = ComponentTable::FindAllComponents(className);
+    auto* go = new std::vector<GameObject*>;
+    for (auto c : *components) {
+        go->push_back(c->gameObject());
+    }
+    return go;
+}
+
+std::vector<GameObject *> *GameObject::FindObjectsWithTag(const std::string &tag) {
+    auto* gos = new std::vector<GameObject*>;
+    for (auto go : _allObjects) {
+        if(go->CompareTag(tag)){
+            gos->push_back(go);
+        }
+    }
+    return gos;
+}
+
+void GameObject::RegisterObject(GameObject *pObject) {
+    std::cout << "Add " << pObject->name() << " to global list" << std::endl;
+    _allObjects.push_back(pObject);
+}
 
