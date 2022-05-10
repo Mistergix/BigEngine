@@ -11,6 +11,7 @@
 class ProjectSettings {
 public:
     static std::string GetAssetsPath();
+    static int TargetFramerate();
 };
 
 

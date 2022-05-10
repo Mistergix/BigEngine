@@ -7,3 +7,7 @@
 std::string ProjectSettings::GetAssetsPath() {
     return "Assets/";
 }
+
+int ProjectSettings::TargetFramerate() {
+    return 60;
+}
