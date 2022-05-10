@@ -32,7 +32,7 @@ protected:
     void ProcessWorldMatrix();
 private:
     static Vector3 DeSerializeVector3(nlohmann::basic_json<> jVector);
-    REGISTER_DECLARATION_TYPE(Transform);
+    REGISTER_DECLARATION_TYPE(Transform)
 };
 
 

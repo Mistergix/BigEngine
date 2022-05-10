@@ -5,6 +5,9 @@
 #include "component.h"
 
 ComponentFactory::map_type * ComponentFactory::_map = nullptr;
+ComponentTable::table_type * ComponentTable::_table = nullptr;
+std::map<Component*, std::string> ComponentTable::_componentsList;
+
 
 void Component::OnRelease() {
 

@@ -4,7 +4,7 @@
 
 #include "transform.h"
 
-REGISTER_DEFINITION_TYPE(Transform);
+REGISTER_DEFINITION_TYPE(Transform)
 
 void Transform::Deserialize(nlohmann::basic_json<> json) {
     Component::Deserialize(json);

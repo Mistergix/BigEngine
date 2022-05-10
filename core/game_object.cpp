@@ -24,17 +24,17 @@ void GameObject::Init(std::string name, std::vector<Component *> components) {
     _activeSelf = true;
     _isStatic = false;
     _tag = "Untagged";
-    _components = std::move(components);
+    ReplaceComponents(components);
     auto t = GetComponent<Transform>();
     if(!t){
-        AddComponent<Transform>();
+        ADD_COMPONENT(Transform);
     }
 }
 
 template<typename T>
-void GameObject::AddComponent() {
+void GameObject::AddComponent(const std::string& className) {
     T* component = new T();
-    AddComponent(component);
+    AddComponent(component, className);
 }
 
 bool GameObject::CompareTag(const std::string& tag) {
@@ -92,7 +92,7 @@ void GameObject::Deserialize(nlohmann::basic_json<> json) {
     tag() = json.at("tag");
     activeSelf() = json.at("active");
 
-    _components.clear();
+    ClearComponents();
     auto jComponents = json.at("components");
     for (const auto& jComponent : jComponents) {
         AddComponentFromSerializedFile(jComponent);
@@ -103,11 +103,28 @@ void GameObject::AddComponentFromSerializedFile(nlohmann::basic_json<> jComponen
     auto className = jComponent.at("class");
     auto component = ComponentFactory::CreateInstance(className);
     component->Deserialize(jComponent);
-    AddComponent(component);
+    AddComponent(component, className);
 }
 
-void GameObject::AddComponent(Component* component) {
+void GameObject::ReplaceComponents(std::vector<Component *> components) {
+    ClearComponents();
+    _components = std::move(components);
+}
+
+void GameObject::AddComponent(Component* component, const std::string& className) {
     _components.push_back(component);
+    GameObject::RegisterComponent(component, className, this);
 }
 
+
+void GameObject::RegisterComponent(Component *pComponent, const std::string& className, GameObject *pObject) {
+    ComponentTable::RegisterComponent(pComponent, className);
+}
+
+void GameObject::ClearComponents() {
+    for (auto component : _components) {
+        ComponentTable::UnregisterComponent(component);
+    }
+    _components.clear();
+}
 

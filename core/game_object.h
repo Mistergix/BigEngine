@@ -11,6 +11,8 @@
 #include "components/transform.h"
 #include "../utils/json.hpp"
 
+#define ADD_COMPONENT(NAME) AddComponent<NAME>(#NAME)
+
 
 class GameObject : public Object {
 public:
@@ -18,7 +20,7 @@ public:
     GameObject(std::string name);
     GameObject(std::string name, std::vector<Component*> components);
     template <typename T>
-    void AddComponent();
+    void AddComponent(const std::string& className);
     bool CompareTag(const std::string& tag);
     template <typename T>
     T* GetComponent();
@@ -34,11 +36,17 @@ public:
 private:
     void Init(std::string name, std::vector<Component*> components);
     void AddComponentFromSerializedFile(nlohmann::basic_json<> json);
-    void AddComponent(Component* component);
+    void AddComponent(Component* component, const std::string& className);
     bool _activeSelf;
     bool _isStatic;
     std::string _tag;
     std::vector<Component*> _components;
+
+    static void RegisterComponent(Component *pComponent, const std::string& className, GameObject *pObject);
+
+    void ReplaceComponents(std::vector<Component *> vector1);
+
+    void ClearComponents();
 };
 
 
