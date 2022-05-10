@@ -4,6 +4,8 @@
 
 #include "component.h"
 
+ComponentFactory::map_type * ComponentFactory::_map = nullptr;
+
 void Component::OnRelease() {
 
 }

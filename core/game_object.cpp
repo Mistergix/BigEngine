@@ -34,7 +34,7 @@ void GameObject::Init(std::string name, std::vector<Component *> components) {
 template<typename T>
 void GameObject::AddComponent() {
     T* component = new T();
-    _components.push_back(component);
+    AddComponent(component);
 }
 
 bool GameObject::CompareTag(const std::string& tag) {
@@ -48,7 +48,7 @@ void GameObject::SetActive(bool active) {
 
 template<typename T>
 T *GameObject::GetComponent() {
-    // Replace vector with map ? because dynamic cast is expensive
+    // TODO  Replace vector with map ? because dynamic cast is expensive
     // https://stackoverflow.com/a/55608393
     T* result = nullptr;
     for(Component* comp : _components){
@@ -91,7 +91,6 @@ void GameObject::Deserialize(nlohmann::basic_json<> json) {
     name() = json.at("name");
     tag() = json.at("tag");
     activeSelf() = json.at("active");
-    isStatic() = json.at("static");
 
     _components.clear();
     auto jComponents = json.at("components");
@@ -104,6 +103,10 @@ void GameObject::AddComponentFromSerializedFile(nlohmann::basic_json<> jComponen
     auto className = jComponent.at("class");
     auto component = ComponentFactory::CreateInstance(className);
     component->Deserialize(jComponent);
+    AddComponent(component);
+}
+
+void GameObject::AddComponent(Component* component) {
     _components.push_back(component);
 }
 

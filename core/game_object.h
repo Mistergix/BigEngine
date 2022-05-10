@@ -34,6 +34,7 @@ public:
 private:
     void Init(std::string name, std::vector<Component*> components);
     void AddComponentFromSerializedFile(nlohmann::basic_json<> json);
+    void AddComponent(Component* component);
     bool _activeSelf;
     bool _isStatic;
     std::string _tag;

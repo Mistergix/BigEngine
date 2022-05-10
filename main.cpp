@@ -10,6 +10,9 @@
 void HandleInput();
 
 int main() {
+    // TODO stocker les components dans une map
+    // TODO transforms children ?
+    // TODO gérer les id dans les fichiers
     // TODO destructors
     // TODO main loop
 

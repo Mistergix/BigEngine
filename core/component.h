@@ -7,7 +7,6 @@
 
 #include <map>
 #include "object.h"
-#include "game_object.h"
 
 #define REGISTER_DECLARATION_TYPE(NAME) \
     static DerivedRegister<NAME> reg
@@ -15,7 +14,13 @@
 #define REGISTER_DEFINITION_TYPE(NAME) \
     DerivedRegister<NAME> NAME::reg(#NAME)
 
-class Component;
+class Component : public Object{
+public:
+    virtual void OnCreate();
+    virtual void OnUpdate(float deltaTime);
+    virtual void OnPhysicsUpdate(float physicsDeltaTime);
+    virtual void OnRelease();
+};
 
 template<typename T> Component * createT() { return new T; }
 
@@ -29,12 +34,12 @@ struct ComponentFactory {
 
 protected:
     static map_type * GetMap(){
-        if (!map){map = new map_type ;}
-        return map;
+        if (!_map){_map = new map_type ;}
+        return _map;
     }
 
 private:
-    static map_type * map;
+    static map_type * _map;
 };
 
 template<typename T>
@@ -43,14 +48,5 @@ struct DerivedRegister : ComponentFactory {
         GetMap()->insert(std::make_pair(s, &createT<T>));
     }
 };
-
-class Component : public Object{
-public:
-    virtual void OnCreate();
-    virtual void OnUpdate(float deltaTime);
-    virtual void OnPhysicsUpdate(float physicsDeltaTime);
-    virtual void OnRelease();
-};
-
 
 #endif //BIG_ENGINE_COMPONENT_H

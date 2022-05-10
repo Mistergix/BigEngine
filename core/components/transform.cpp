@@ -8,7 +8,9 @@ REGISTER_DEFINITION_TYPE(Transform);
 
 void Transform::Deserialize(nlohmann::basic_json<> json) {
     Component::Deserialize(json);
-
+    SetScale(DeSerializeVector3(json.at("localScale")));
+    SetRotation(DeSerializeVector3(json.at("localRotation")));
+    SetPosition(DeSerializeVector3(json.at("localPosition")));
 }
 
 void Transform::ProcessWorldMatrix() {
@@ -68,6 +70,10 @@ Vector3 Transform::GetRotation() {
 
 Vector3 Transform::GetScale() {
     return m_scale;
+}
+
+Vector3 Transform::DeSerializeVector3(nlohmann::basic_json<> jVector3) {
+    return {jVector3.at("x"), jVector3.at("y"), jVector3.at("z")};
 }
 
 

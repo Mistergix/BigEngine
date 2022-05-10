@@ -14,9 +14,9 @@ Scene::Scene(std::string path) {
     _name = j.at("name");
 
     auto jPrefabs = j.at("prefabs");
-    for (int i = 0; i < jPrefabs.size(); ++i) {
-        auto jPrefab = jPrefabs.at(i);
+    for (auto jPrefab : jPrefabs) {
         auto instantiatedPrefab = PrefabUtils::InstantiatePrefab(jPrefab.at("source").at("guid"));
+        _objects.push_back(instantiatedPrefab);
     }
 }
 

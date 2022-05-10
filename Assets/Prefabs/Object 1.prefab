@@ -1,7 +1,6 @@
 {
   "name" : "Object 1",
   "tag" : "Objet Test",
-  "static": false,
   "active" : true,
   "id" : "abcedf",
   "components" : [
@@ -10,8 +9,7 @@
       "id": "oijkl",
       "localRotation" : {"x" : 180, "y" : 90, "z" : 45},
       "localPosition" : {"x" : 10, "y" : 0, "z" : -10},
-      "localScale" : {"x" : 2, "y" : 2, "z" : 2},
-      "children" : []
+      "localScale" : {"x" : 2, "y" : 2, "z" : 2}
     }
   ]
 }
