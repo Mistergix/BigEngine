@@ -113,6 +113,7 @@ void GameObject::ReplaceComponents(std::vector<Component *> components) {
 
 void GameObject::AddComponent(Component* component, const std::string& className) {
     _components.push_back(component);
+    component->SetGameObject(this);
     GameObject::RegisterComponent(component, className, this);
 }
 

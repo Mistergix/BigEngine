@@ -24,3 +24,8 @@ void Component::OnUpdate(float deltaTime) {
 void Component::OnCreate() {
 
 }
+
+void Component::SetGameObject(GameObject *go) {
+    _gameObject = go;
+}
+

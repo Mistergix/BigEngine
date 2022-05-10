@@ -9,6 +9,8 @@
 #include <iostream>
 #include "object.h"
 
+class GameObject;
+
 #define REGISTER_DECLARATION_TYPE(NAME) \
 static DerivedRegister<NAME> reg;   \
 static DerivedComponentTable regTable;
@@ -25,6 +27,11 @@ public:
     virtual void OnUpdate(float deltaTime);
     virtual void OnPhysicsUpdate(float physicsDeltaTime);
     virtual void OnRelease();
+
+    void SetGameObject(GameObject* go);
+
+private:
+    GameObject* _gameObject;
 };
 
 struct ComponentTable{
