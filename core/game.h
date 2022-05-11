@@ -43,6 +43,8 @@ protected:
     void DoUpdate(double& accumulatedTimeUpdate, int& nbLoopsUpdate, Timer& timer, double maxDt, int maxLoops, bool isPhysics);
 
     void PhysicsUpdate(double dt);
+
+    void DetectCollisions();
 };
 
 

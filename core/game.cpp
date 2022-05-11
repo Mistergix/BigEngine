@@ -40,10 +40,12 @@ void Game::Run() {
         _physicsTimer->tick();
         if(!_isPaused){
             CalculateFrameStatistics();
-            HandleInput();
 
-            DoUpdate(accumulatedTimeUpdate, nbLoopsUpdate, *_updateTimer, _dtUpdate, _maxSkipFramesUpdate, false);
+
             DoUpdate(accumulatedTimePhysics, nbLoopsPhysics, *_physicsTimer, _dtPhysics, _maxSkipFramesPhysics, true);
+            HandleInput();
+            DoUpdate(accumulatedTimeUpdate, nbLoopsUpdate, *_updateTimer, _dtUpdate, _maxSkipFramesUpdate, false);
+
 
             Render();
 
@@ -113,4 +115,9 @@ void Game::Destroy() {
 
 void Game::PhysicsUpdate(double dt) {
     // TODO physics update
+    DetectCollisions();
+}
+
+void Game::DetectCollisions() {
+
 }
