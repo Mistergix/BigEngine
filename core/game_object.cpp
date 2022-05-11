@@ -187,6 +187,7 @@ void GameObject::Update(double dt) {
 }
 
 void GameObject::Destroy(GameObject &object) {
+    //TODO lazy delete
     object.ClearComponents();
     object._components.shrink_to_fit();
     GameObject::UnregisterObject(object);

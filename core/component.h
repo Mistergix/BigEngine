@@ -9,6 +9,7 @@
 #include <iostream>
 #include "object.h"
 
+
 class GameObject;
 
 #define REGISTER_DECLARATION_TYPE(NAME) \
