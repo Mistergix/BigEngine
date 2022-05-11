@@ -13,8 +13,13 @@ void Game::Run() {
     auto gosWithTag = GameObject::FindObjectsWithTag("Bibi");
     std::cout << gos->size() << " of type Transform" <<  std::endl;
     std::cout << gosWithTag->size() << " with tag bibi" <<  std::endl;
+    _timer = new Timer();
     _timer->reset();
     _continueRunning = true;
+    double accumulatedTime = 0.0;
+    int nbLoops = 0;
+    _dt = 1000.0 / 240.0;
+    _maxSkipFrames = 10;
 
     StartBehaviour();
     while (_continueRunning){
@@ -22,11 +27,21 @@ void Game::Run() {
         if(!_isPaused){
             CalculateFrameStatistics();
             HandleInput();
-            Update(_timer->getDeltaTime());
+            accumulatedTime += _timer->getDeltaTime();
+            nbLoops = 0;
+            while(accumulatedTime >= _dt && nbLoops < _maxSkipFrames){
+                Update(_dt);
+                accumulatedTime -= _dt;
+                nbLoops++;
+            }
+
             //TODO Physics with different timer
             Render();
         }
     }
+
+    DeInitialize();
+    Destroy();
 }
 
 void Game::CalculateFrameStatistics() {
@@ -41,7 +56,7 @@ void Game::CalculateFrameStatistics() {
 }
 
 void Game::StartBehaviour() {
-
+    //TODO Start
 }
 
 void Game::HandleInput() {
@@ -53,4 +68,17 @@ void Game::HandleInput() {
 
 void Game::Render() {
     // TODO render
+}
+
+void Game::Update(double dt) {
+    //TODO UPDATE
+}
+
+void Game::DeInitialize() {
+
+    //TODO DE init
+}
+
+void Game::Destroy() {
+    // TODO Destroy
 }

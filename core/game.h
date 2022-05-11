@@ -18,6 +18,8 @@ protected:
     double _milliSecondsPerFrame;
     int _nFramesForStats = 0;
     double _elapsedTimeForStats = 0.0;
+    double _dt;
+    double _maxSkipFrames;
 
     void CalculateFrameStatistics();
     void Update(double dt);
@@ -30,6 +32,10 @@ protected:
     void HandleInput();
 
     void Render();
+
+    void DeInitialize();
+
+    void Destroy();
 };
 
 
