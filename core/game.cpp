@@ -13,30 +13,43 @@ void Game::Run() {
     auto gosWithTag = GameObject::FindObjectsWithTag("Bibi");
     std::cout << gos->size() << " of type Transform" <<  std::endl;
     std::cout << gosWithTag->size() << " with tag bibi" <<  std::endl;
-    _timer = new Timer();
-    _timer->reset();
+    //TODO refactor the timers in separate modules
+    _updateTimer = new Timer();
+    _updateTimer->reset();
+    _physicsTimer = new Timer();
+    _physicsTimer->reset();
+
     _continueRunning = true;
-    double accumulatedTime = 0.0;
-    int nbLoops = 0;
-    _dt = 1000.0 / 240.0;
-    _maxSkipFrames = 10;
+
+    double accumulatedTimeUpdate = 0.0;
+    int nbLoopsUpdate = 0;
+    double accumulatedTimePhysics = 0.0;
+    int nbLoopsPhysics = 0;
+
+    const int updateFPSTarget = 60;
+    const int physicsFPSTarget = 100;
+
+    _dtUpdate = 1000.0 / updateFPSTarget;
+    _maxSkipFramesUpdate = 10;
+    _dtPhysics = 1000.0 / physicsFPSTarget;
+    _maxSkipFramesPhysics = 10;
 
     StartBehaviour();
     while (_continueRunning){
-        _timer->tick();
+        _updateTimer->tick();
+        _physicsTimer->tick();
         if(!_isPaused){
             CalculateFrameStatistics();
             HandleInput();
-            accumulatedTime += _timer->getDeltaTime();
-            nbLoops = 0;
-            while(accumulatedTime >= _dt && nbLoops < _maxSkipFrames){
-                Update(_dt);
-                accumulatedTime -= _dt;
-                nbLoops++;
-            }
 
-            //TODO Physics with different timer
+            DoUpdate(accumulatedTimeUpdate, nbLoopsUpdate, *_updateTimer, _dtUpdate, _maxSkipFramesUpdate, false);
+            DoUpdate(accumulatedTimePhysics, nbLoopsPhysics, *_physicsTimer, _dtPhysics, _maxSkipFramesPhysics, true);
+
             Render();
+
+            if(_updateTimer->getTotalTime() > 10.0){
+                _continueRunning = false;
+            }
         }
     }
 
@@ -44,9 +57,24 @@ void Game::Run() {
     Destroy();
 }
 
+void Game::DoUpdate(double& accumulatedTime, int& nbLoops, Timer& timer, double maxDt, int maxLoops, bool isPhysics) {
+    accumulatedTime += timer.getDeltaTime();
+    nbLoops = 0;
+    while(accumulatedTime >= maxDt && nbLoops < maxLoops){
+        if(isPhysics){
+            PhysicsUpdate(maxDt);
+        }
+        else {
+            Update(maxDt);
+        }
+        accumulatedTime -= maxDt;
+        nbLoops++;
+    }
+}
+
 void Game::CalculateFrameStatistics() {
     _nFramesForStats ++;
-    if ((_timer->getTotalTime() - _elapsedTimeForStats) >= 1.0){
+    if ((_updateTimer->getTotalTime() - _elapsedTimeForStats) >= 1.0){
         _fps = _nFramesForStats;
         _milliSecondsPerFrame = 1000.0 / (double ) _fps;
 
@@ -81,4 +109,8 @@ void Game::DeInitialize() {
 
 void Game::Destroy() {
     // TODO Destroy
+}
+
+void Game::PhysicsUpdate(double dt) {
+    // TODO physics update
 }

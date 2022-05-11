@@ -13,13 +13,16 @@ public:
     void Run();
 
 protected:
-    Timer* _timer;
+    Timer* _updateTimer;
+    Timer* _physicsTimer;
     int _fps;
     double _milliSecondsPerFrame;
     int _nFramesForStats = 0;
     double _elapsedTimeForStats = 0.0;
-    double _dt;
-    double _maxSkipFrames;
+    double _dtUpdate;
+    int _maxSkipFramesUpdate;
+    double _dtPhysics;
+    int _maxSkipFramesPhysics;
 
     void CalculateFrameStatistics();
     void Update(double dt);
@@ -36,6 +39,10 @@ protected:
     void DeInitialize();
 
     void Destroy();
+
+    void DoUpdate(double& accumulatedTimeUpdate, int& nbLoopsUpdate, Timer& timer, double maxDt, int maxLoops, bool isPhysics);
+
+    void PhysicsUpdate(double dt);
 };
 
 
