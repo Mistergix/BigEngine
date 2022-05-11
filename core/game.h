@@ -7,12 +7,14 @@
 
 
 #include "game_time.h"
+#include "../scenes/scene.h"
 
 class Game {
 public:
     void Run();
 
 protected:
+    Scene* _scene;
     Timer* _updateTimer;
     Timer* _physicsTimer;
     int _fps;

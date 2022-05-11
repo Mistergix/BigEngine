@@ -18,6 +18,13 @@ Scene::Scene(std::string path) {
         auto instantiatedPrefab = PrefabUtils::InstantiatePrefab(jPrefab.at("source").at("guid"));
         _objects.push_back(instantiatedPrefab);
     }
+
+    auto jObjects = j.at("objects");
+    for (const auto& jPrefab : jObjects) {
+        auto go = new GameObject();
+        go->Deserialize(jPrefab);
+        _objects.push_back(go);
+    }
 }
 
 std::string &Scene::name() {
@@ -26,4 +33,8 @@ std::string &Scene::name() {
 
 const std::string &Scene::name() const {
     return _name;
+}
+
+std::vector<GameObject*> Scene::GetObjects() {
+    return _objects;
 }

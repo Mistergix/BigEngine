@@ -36,6 +36,13 @@ public:
     void Deserialize(nlohmann::basic_json<> json) override;
     static std::vector<GameObject*>* FindObjectsOfType(const std::string& className);
     static std::vector<GameObject*>* FindObjectsWithTag(const std::string& tag);
+
+    void OnStart();
+
+    void PhysicsUpdate(double d);
+
+    void Update(double d);
+
 private:
     void Init(std::string name, std::vector<Component*> components);
     void AddComponentFromSerializedFile(nlohmann::basic_json<> json);
@@ -53,7 +60,7 @@ private:
 
     void ClearComponents();
 
-    void RegisterObject(GameObject *pObject);
+    static void RegisterObject(GameObject *pObject);
 };
 
 

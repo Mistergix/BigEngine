@@ -13,15 +13,15 @@ void Component::OnRelease() {
 
 }
 
-void Component::OnPhysicsUpdate(float physicsDeltaTime) {
+void Component::OnPhysicsUpdate(double physicsDeltaTime) {
 
 }
 
-void Component::OnUpdate(float deltaTime) {
+void Component::OnUpdate(double deltaTime) {
 
 }
 
-void Component::OnCreate() {
+void Component::OnStart() {
 
 }
 

@@ -156,3 +156,21 @@ void GameObject::RegisterObject(GameObject *pObject) {
     _allObjects.push_back(pObject);
 }
 
+void GameObject::OnStart() {
+    for (auto c : _components) {
+        c->OnStart();
+    }
+}
+
+void GameObject::PhysicsUpdate(double dt) {
+    for (auto c : _components) {
+        c->OnPhysicsUpdate(dt);
+    }
+}
+
+void GameObject::Update(double dt) {
+    for (auto c : _components) {
+        c->OnUpdate(dt);
+    }
+}
+

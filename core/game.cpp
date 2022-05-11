@@ -3,12 +3,11 @@
 //
 
 #include "game.h"
-#include "../scenes/scene.h"
 
 void Game::Run() {
     std::string scenePath = "Assets/Scenes/SceneTest.scene";
-    Scene scene(scenePath);
-    std::cout << scene.name() << std::endl;
+    _scene = new Scene(scenePath);
+    std::cout << _scene->name() << std::endl;
     auto gos = FIND_OBJECTS_OF_TYPE(Transform);
     auto gosWithTag = GameObject::FindObjectsWithTag("Bibi");
     std::cout << gos->size() << " of type Transform" <<  std::endl;
@@ -86,7 +85,9 @@ void Game::CalculateFrameStatistics() {
 }
 
 void Game::StartBehaviour() {
-    //TODO Start
+    for (auto obj  : _scene->GetObjects()) {
+        obj->OnStart();
+    }
 }
 
 void Game::HandleInput() {
@@ -101,7 +102,9 @@ void Game::Render() {
 }
 
 void Game::Update(double dt) {
-    //TODO UPDATE
+    for (auto obj  : _scene->GetObjects()) {
+        obj->Update(dt);
+    }
 }
 
 void Game::DeInitialize() {
@@ -114,7 +117,9 @@ void Game::Destroy() {
 }
 
 void Game::PhysicsUpdate(double dt) {
-    // TODO physics update
+    for (auto obj  : _scene->GetObjects()) {
+        obj->PhysicsUpdate(dt);
+    }
     DetectCollisions();
 }
 

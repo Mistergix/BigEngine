@@ -23,9 +23,9 @@ DerivedComponentTable NAME::regTable(#NAME);
 
 class Component : public Object{
 public:
-    virtual void OnCreate();
-    virtual void OnUpdate(float deltaTime);
-    virtual void OnPhysicsUpdate(float physicsDeltaTime);
+    virtual void OnStart();
+    virtual void OnUpdate(double deltaTime);
+    virtual void OnPhysicsUpdate(double physicsDeltaTime);
     virtual void OnRelease();
 
     void SetGameObject(GameObject* go);

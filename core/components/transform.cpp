@@ -76,4 +76,3 @@ Vector3 Transform::DeSerializeVector3(nlohmann::basic_json<> jVector3) {
     return {jVector3.at("x"), jVector3.at("y"), jVector3.at("z")};
 }
 
-
