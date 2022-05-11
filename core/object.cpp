@@ -12,10 +12,6 @@ const std::string &Object::name() const {
     return _name;
 }
 
-void Object::Destroy(Object object) {
-    object._toDestroy = true;
-}
-
 void Object::Deserialize(nlohmann::basic_json<> json) {
     _fileId = json.at("id");
 }

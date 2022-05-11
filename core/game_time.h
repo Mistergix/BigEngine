@@ -31,6 +31,10 @@ public:
     void reset();
     void tick();
     void stop();
+
+    void SetTimeScale(double d);
+
+    double _timeScale;
 };
 
 

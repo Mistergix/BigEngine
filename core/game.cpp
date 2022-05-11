@@ -33,8 +33,12 @@ void Game::Run() {
     _dtPhysics = 1000.0 / physicsFPSTarget;
     _maxSkipFramesPhysics = 10;
 
+    _timeScale = 1.0;
+
     StartBehaviour();
     while (_continueRunning){
+        _updateTimer->SetTimeScale(_timeScale);
+        _physicsTimer->SetTimeScale(_timeScale);
         _updateTimer->tick();
         _physicsTimer->tick();
         if(!_isPaused){
@@ -47,10 +51,6 @@ void Game::Run() {
 
 
             Render();
-
-            if(_updateTimer->getTotalTime() > 10.0){
-                _continueRunning = false;
-            }
         }
     }
 
@@ -95,6 +95,40 @@ void Game::HandleInput() {
     // Utiliser une lib ?
     // Stocker et dater les inputs
     // ESPACE = Play et PAUSE
+    // + : create a prefab
+    // - : destroy a random go
+    // up and down arrows = time scale
+    // escape = quitter
+
+    if (IsKeyDown(VK_ESCAPE)){
+        _continueRunning = false;
+    }
+
+    if (IsKeyDown(VK_UP)){
+        _timeScale += 0.1;
+        std::cout << " TIme scale is " << _timeScale << std::endl;
+    }
+
+    if (IsKeyDown(VK_DOWN)){
+        _timeScale -= 0.1;
+        if(_timeScale < 0.0) {_timeScale = 0.0;}
+        std::cout << " TIme scale is " << _timeScale << std::endl;
+    }
+
+    if(IsKeyDown(VK_SPACE)){
+        TogglePause();
+    }
+
+    // +
+    if(IsKeyDown(VK_ADD)){
+        InstantiatePrefab("12345");
+    }
+
+    if(IsKeyDown(VK_SUBTRACT)){
+        DeleteRandomObject();
+    }
+
+
 }
 
 void Game::Render() {
@@ -113,7 +147,10 @@ void Game::DeInitialize() {
 }
 
 void Game::Destroy() {
-    // TODO Destroy
+    _scene->Destroy();
+    delete _updateTimer;
+    delete _physicsTimer;
+    delete _scene;
 }
 
 void Game::PhysicsUpdate(double dt) {
@@ -125,4 +162,24 @@ void Game::PhysicsUpdate(double dt) {
 
 void Game::DetectCollisions() {
 
+}
+
+void Game::InstantiatePrefab(const std::string& guid) {
+    _scene->CreateObject(guid);
+}
+
+void Game::DeleteRandomObject() {
+    _scene->TryDeleteFirstObject();
+}
+
+void Game::TogglePause() {
+    _isPaused = !_isPaused;
+    if(_isPaused){
+        _updateTimer->stop();
+        _physicsTimer->stop();
+    }
+    else{
+        _updateTimer->start();
+        _physicsTimer->start();
+    }
 }

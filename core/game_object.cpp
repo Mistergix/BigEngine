@@ -32,6 +32,7 @@ void GameObject::Init(std::string name, std::vector<Component *> components) {
         ADD_COMPONENT(Transform);
     }
     GameObject::RegisterObject(this);
+    _started = false;
 }
 
 template<typename T>
@@ -128,7 +129,9 @@ void GameObject::RegisterComponent(Component *pComponent, const std::string& cla
 void GameObject::ClearComponents() {
     for (auto component : _components) {
         ComponentTable::UnregisterComponent(component);
+        delete component;
     }
+
     _components.clear();
 }
 
@@ -157,9 +160,14 @@ void GameObject::RegisterObject(GameObject *pObject) {
 }
 
 void GameObject::OnStart() {
+    if(_started){
+        return;
+    }
+
     for (auto c : _components) {
         c->OnStart();
     }
+    _started = true;
 }
 
 void GameObject::PhysicsUpdate(double dt) {
@@ -169,8 +177,25 @@ void GameObject::PhysicsUpdate(double dt) {
 }
 
 void GameObject::Update(double dt) {
+    if(!_started){
+        OnStart();
+    }
+
     for (auto c : _components) {
         c->OnUpdate(dt);
     }
+}
+
+void GameObject::Destroy(GameObject &object) {
+    object.ClearComponents();
+    object._components.shrink_to_fit();
+    GameObject::UnregisterObject(object);
+    delete &object;
+}
+
+void GameObject::UnregisterObject(GameObject &object) {
+    std::cout << "Delete " << object.name() << " to global list" << std::endl;
+    auto listIt = std::find(_allObjects.begin(), _allObjects.end(), object);
+    _allObjects.erase(listIt);
 }
 

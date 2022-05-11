@@ -8,6 +8,7 @@
 
 #include "game_time.h"
 #include "../scenes/scene.h"
+#include "WinUser.h"
 
 class Game {
 public:
@@ -47,6 +48,23 @@ protected:
     void PhysicsUpdate(double dt);
 
     void DetectCollisions();
+
+    inline bool IsKeyDown(int keyCode)
+    {
+        return ((GetAsyncKeyState(keyCode) & 0x8000) ? 1 : 0);
+    };
+
+    inline bool IsKeyUp(int keyCode)
+    {
+        return ((GetAsyncKeyState(keyCode) & 0x8000) ? 0 : 1);
+    };
+    double _timeScale;
+
+    void InstantiatePrefab(const std::string& guid);
+
+    void DeleteRandomObject();
+
+    void TogglePause();
 };
 
 

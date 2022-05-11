@@ -43,12 +43,16 @@ public:
 
     void Update(double d);
 
+
+    static void Destroy(GameObject& object);
+
 private:
     void Init(std::string name, std::vector<Component*> components);
     void AddComponentFromSerializedFile(nlohmann::basic_json<> json);
     void AddComponent(Component* component, const std::string& className);
     bool _activeSelf;
     bool _isStatic;
+    bool _toDestroy;
     std::string _tag;
     std::vector<Component*> _components;
 
@@ -61,6 +65,10 @@ private:
     void ClearComponents();
 
     static void RegisterObject(GameObject *pObject);
+
+    bool _started;
+
+    static void UnregisterObject(GameObject &object);
 };
 
 

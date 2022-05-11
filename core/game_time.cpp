@@ -11,6 +11,7 @@ Timer::Timer() {
     _secondsPerCount = 0.0;
     _deltaTime = 0.0;
     _isStopped = false;
+    _timeScale = 1.0;
 
     uint64_t frequency = 0;
 
@@ -53,7 +54,7 @@ void Timer::tick() {
         _deltaTime = 0.0f;
     } else{
         if(QueryPerformanceCounter((LARGE_INTEGER*)& _currentTimeStamp)){
-            _deltaTime = (_currentTimeStamp - _previousTimeStamp) * _secondsPerCount;
+            _deltaTime = (_currentTimeStamp - _previousTimeStamp) * _secondsPerCount * _timeScale;
             _previousTimeStamp = _currentTimeStamp;
             if(_deltaTime < 0.0){_deltaTime = 0.0;}
 
@@ -69,6 +70,7 @@ void Timer::reset() {
         _startTimeStamp = now;
         _previousTimeStamp = now;
         _pausedTimeStamp = 0;
+        _timeScale = 1.0;
         _isStopped = false;
     } else{
         throw std::runtime_error("Unable to query the performance counter!");
@@ -85,6 +87,10 @@ double Timer::getTotalTime() const {
     } else{
         return (_currentTimeStamp - _startTimeStamp - _totalIdleTime) * _secondsPerCount;
     }
+}
+
+void Timer::SetTimeScale(double scale) {
+    _timeScale = scale;
 }
 
 

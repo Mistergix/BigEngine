@@ -17,6 +17,12 @@ public:
 
     std::vector<GameObject*> GetObjects();
 
+    GameObject* CreateObject(const std::string& guid);
+
+    void TryDeleteFirstObject();
+
+    void Destroy();
+
 private:
     std::string _path;
     std::string _name;

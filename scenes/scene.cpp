@@ -15,8 +15,7 @@ Scene::Scene(std::string path) {
 
     auto jPrefabs = j.at("prefabs");
     for (auto jPrefab : jPrefabs) {
-        auto instantiatedPrefab = PrefabUtils::InstantiatePrefab(jPrefab.at("source").at("guid"));
-        _objects.push_back(instantiatedPrefab);
+        CreateObject(jPrefab.at("source").at("guid"));
     }
 
     auto jObjects = j.at("objects");
@@ -37,4 +36,26 @@ const std::string &Scene::name() const {
 
 std::vector<GameObject*> Scene::GetObjects() {
     return _objects;
+}
+
+GameObject* Scene::CreateObject(const std::string& guid) {
+    auto instantiatedPrefab = PrefabUtils::InstantiatePrefab(guid);
+    _objects.push_back(instantiatedPrefab);
+    return instantiatedPrefab;
+}
+
+void Scene::TryDeleteFirstObject() {
+    if(_objects.empty()){return;}
+    GameObject::Destroy(*_objects.at(0));
+    _objects.erase(_objects.begin());
+}
+
+void Scene::Destroy() {
+    while(!_objects.empty()){
+        GameObject::Destroy(*_objects.at(0));
+        _objects.erase(_objects.begin());
+    }
+
+    _objects.clear();
+    _objects.shrink_to_fit();
 }
