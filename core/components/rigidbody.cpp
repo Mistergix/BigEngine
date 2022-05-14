@@ -20,12 +20,17 @@ void RigidBody::OnPhysicsUpdate(double physicsDeltaTime) {
         _position = gameObject()->transform()->GetPosition();
     }
 
-    _velocity = _velocity + (_acceleration / _mass) * physicsDeltaTime;
-    _position = _position + _velocity * physicsDeltaTime;
+    auto mult = (_acceleration / _mass) * (float)physicsDeltaTime;
+
+    _velocity = _velocity + mult;
+    _position = _position + _velocity * (float)physicsDeltaTime;
+    std::cout << "Velocity of " << name() << " : " << _velocity << std::endl;
+    //malek.bengougam@gmail.com
 }
 
 void RigidBody::OnUpdate(double deltaTime) {
     Component::OnUpdate(deltaTime);
+    gameObject()->transform()->SetPosition(_position);
 }
 
 RigidBody::RigidBody() {
@@ -33,4 +38,5 @@ RigidBody::RigidBody() {
     _velocity = Vector3();
     _position = Vector3();
     _mass = 1.0;
+    _init = false;
 }

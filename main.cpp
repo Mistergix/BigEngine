@@ -2,9 +2,9 @@
 #include "core/object.h"
 #include "editor/editor.h"
 #include "core/game.h"
-
+/*
 #include "Glew/glew.h"
-#include "Glfw/glfw3.h"
+#include "Glfw/glfw3.h"*/
 
 
 void ErrorCallback(int error, const char* desc){
@@ -21,6 +21,8 @@ int main() {
     Game game;
 
     game.Run();
+
+    /*
 
     if(!glfwInit()){
         std::cerr << "gltf init fail" << std::endl;
@@ -51,7 +53,7 @@ int main() {
         glfwPollEvents();
     }
 
-    glfwTerminate();
+    glfwTerminate();*/
     return 0;
 }
 

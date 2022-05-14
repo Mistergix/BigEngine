@@ -8,7 +8,6 @@
 
 #include "game_time.h"
 #include "../scenes/scene.h"
-#include "WinUser.h"
 
 class Game {
 public:
@@ -51,12 +50,14 @@ protected:
 
     inline bool IsKeyDown(int keyCode)
     {
-        return ((GetAsyncKeyState(keyCode) & 0x8000) ? 1 : 0);
+       // return ((GetAsyncKeyState(keyCode) & 0x8000) ? 1 : 0);
+       return false;
     };
 
     inline bool IsKeyUp(int keyCode)
     {
-        return ((GetAsyncKeyState(keyCode) & 0x8000) ? 0 : 1);
+        //return ((GetAsyncKeyState(keyCode) & 0x8000) ? 0 : 1);
+        return false;
     };
     double _timeScale;
 

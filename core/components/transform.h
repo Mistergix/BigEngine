@@ -12,12 +12,13 @@
 
 class Transform : public Component{
 public:
-    virtual void Deserialize(nlohmann::basic_json<> json) override;
+    void Deserialize(nlohmann::basic_json<> json) override;
 
     void GetWorldMatrix(Matrix4& world);
     void SetPosition(const  Vector3& position);
     void SetRotation(const  Vector3& rotation);
     void SetScale(const  Vector3& scale);
+    void OnUpdate(double deltaTime) override;
 
     Vector3 GetPosition();
     Vector3 GetRotation();

@@ -71,5 +71,17 @@ private:
     static void UnregisterObject(GameObject &object);
 };
 
+template<typename T>
+T *GameObject::GetComponent() {
+    // TODO  Replace vector with map ? because dynamic cast is expensive
+    // https://stackoverflow.com/a/55608393
+    T* result = nullptr;
+    for(Component* comp : _components){
+        result = dynamic_cast<T*>(comp);
+        if(result){break;}
+    }
+    return result;
+}
+
 
 #endif //BIG_ENGINE_GAME_OBJECT_H

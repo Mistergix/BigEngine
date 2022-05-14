@@ -3,6 +3,7 @@
 //
 
 #include "component.h"
+#include "game_object.h"
 
 ComponentFactory::map_type * ComponentFactory::_map = nullptr;
 ComponentTable::table_type * ComponentTable::_table = nullptr;
@@ -31,5 +32,9 @@ void Component::SetGameObject(GameObject *go) {
 
 GameObject *Component::gameObject() {
     return _gameObject;
+}
+
+std::string &Component::name() {
+    return gameObject()->name();
 }
 

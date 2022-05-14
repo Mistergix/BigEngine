@@ -11,7 +11,7 @@
 
 class Object {
 public:
-    std::string& name();
+    virtual std::string& name();
     [[nodiscard]] const std::string& name() const;
     virtual void Deserialize(nlohmann::basic_json<> json);
 private:

@@ -1,6 +1,7 @@
 #include "game_time.h"
 #include <windows.h>
 #include <stdexcept>
+#include <iostream>
 
 Timer::Timer() {
     _startTimeStamp = 0;
@@ -57,6 +58,7 @@ void Timer::tick() {
             _deltaTime = (_currentTimeStamp - _previousTimeStamp) * _secondsPerCount * _timeScale;
             _previousTimeStamp = _currentTimeStamp;
             if(_deltaTime < 0.0){_deltaTime = 0.0;}
+            //std::cout << "DT is " << _deltaTime << std::endl;
 
         } else{
             throw std::runtime_error("Unable to query the performance counter!");

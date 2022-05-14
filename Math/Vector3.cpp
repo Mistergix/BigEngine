@@ -2,8 +2,8 @@
 
 Vector3::Vector3() {
 	x = 0;
-	x = 0;
-	x = 0;
+	y = 0;
+	z = 0;
 }
 
 
@@ -52,67 +52,13 @@ Vector3 Vector3::normalize() {
 	Vector3 res;
 	float len = sqrt((x * x) + (y * y) + (z * z));
 	if (!len)
-		return Vector3();
+		return {};
 
 	res.x = x / len;
 	res.y = y / len;
 	res.z = z / len;
 
 	return res;
-}
-
-
-Vector3& Vector3::operator+(Vector3 v) {
-	float x = this->x + v.x;
-	float y = this->y + v.y;
-	float z = this->z + v.z;
-	Vector3 res(x,y,z);
-	return res;
-}
-
-Vector3& Vector3::operator-(Vector3 v) {
-	float x = this->x - v.x;
-	float y = this->y - v.y;
-	float z = this->z - v.z;
-	Vector3 res(x, y, z);
-	return res;
-}
-Vector3& Vector3::operator*(float f) {
-	float x = this->x * f;
-	float y = this->y * f;
-	float z = this->z * f;
-	Vector3 res(x, y, z);
-	return res;
-
-}
-
-Vector3& Vector3::operator/(float f) {
-
-	float x = this->x / f;
-	float y = this->y / f;
-	float z = this->z / f;
-	Vector3 res(x, y, z);
-	return res;
-}
-
-Vector3 Vector3::operator-() {
-	return Vector3(-x, -y, -z);
-	
-}
-
-Vector3 Vector3::operator=(Vector3 v) {
-	x = v.x;
-	y = v.y;
-	z = v.z;
-	return *this;
-}
-
-bool Vector3::operator !=(Vector3 v) {
-	return (x != v.x && y != v.y && z != v.z);
-}
-
-bool Vector3::operator ==(Vector3 v) {
-	return (x == v.x && y == v.y && z == v.z);
 }
 
 std::ostream& operator<<(std::ostream& os, const Vector3& v)
