@@ -3,6 +3,8 @@
 //
 
 #include "game.h"
+#include "components/renderer.h"
+
 
 void Game::Run() {
     std::string scenePath = "Assets/Scenes/SceneTest.scene";
@@ -35,6 +37,9 @@ void Game::Run() {
 
     _timeScale = 1.0;
 
+    std::vector<Component*>* camera = ComponentTable::FindAllComponents("Camera");
+    Camera _camera = reinterpret_cast<const Camera &>(camera->front());
+
     StartBehaviour();
     while (_continueRunning){
         _updateTimer->SetTimeScale(_timeScale);
@@ -50,7 +55,7 @@ void Game::Run() {
             DoUpdate(accumulatedTimeUpdate, nbLoopsUpdate, *_updateTimer, _dtUpdate, _maxSkipFramesUpdate, false);
 
 
-            Render();
+            Render(_camera);
         }
     }
 
@@ -100,39 +105,47 @@ void Game::HandleInput() {
     // up and down arrows = time scale
     // escape = quitter
 
-    if (IsKeyDown(VK_ESCAPE)){
-        _continueRunning = false;
-    }
-
-    if (IsKeyDown(VK_UP)){
-        _timeScale += 0.1;
-        std::cout << " TIme scale is " << _timeScale << std::endl;
-    }
-
-    if (IsKeyDown(VK_DOWN)){
-        _timeScale -= 0.1;
-        if(_timeScale < 0.0) {_timeScale = 0.0;}
-        std::cout << " TIme scale is " << _timeScale << std::endl;
-    }
-
-    if(IsKeyDown(VK_SPACE)){
-        TogglePause();
-    }
-
-    // +
-    if(IsKeyDown(VK_ADD)){
-        InstantiatePrefab("12345");
-    }
-
-    if(IsKeyDown(VK_SUBTRACT)){
-        DeleteRandomObject();
-    }
+//    if (IsKeyDown(VK_ESCAPE)){
+//        _continueRunning = false;
+//    }
+//
+//    if (IsKeyDown(VK_UP)){
+//        _timeScale += 0.1;
+//        std::cout << " TIme scale is " << _timeScale << std::endl;
+//    }
+//
+//    if (IsKeyDown(VK_DOWN)){
+//        _timeScale -= 0.1;
+//        if(_timeScale < 0.0) {_timeScale = 0.0;}
+//        std::cout << " TIme scale is " << _timeScale << std::endl;
+//    }
+//
+//    if(IsKeyDown(VK_SPACE)){
+//        TogglePause();
+//    }
+//
+//    // +
+//    if(IsKeyDown(VK_ADD)){
+//        InstantiatePrefab("12345");
+//    }
+//
+//    if(IsKeyDown(VK_SUBTRACT)){
+//        DeleteRandomObject();
+//    }
 
 
 }
 
-void Game::Render() {
-    // TODO render
+void Game::Render(Camera camera) {
+
+
+    glm::mat4 view = camera.getViewProjection();
+
+    std::vector<Component*>* renderers = ComponentTable::FindAllComponents("Renderer");
+
+    for (const auto &rend : *renderers){
+        ((Renderer*)rend)->draw();
+    }
 }
 
 void Game::Update(double dt) {

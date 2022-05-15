@@ -1,0 +1,19 @@
+{
+  "name" : "Object 1",
+  "tag" : "Objet Test",
+  "active" : true,
+  "id" : "abcedf",
+  "components" : [
+    {
+      "class" : "Transform",
+      "id": "oijkl",
+      "localRotation" : {"x" : 180, "y" : 90, "z" : 45},
+      "localPosition" : {"x" : 10, "y" : 0, "z" : -10},
+      "localScale" : {"x" : 2, "y" : 2, "z" : 2}
+    }
+    {
+      "class" : "Camera",
+      "id": "oijhl",
+    }
+  ]
+}

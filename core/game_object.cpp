@@ -6,6 +6,7 @@
 #include "components/transform.h"
 
 #include <utility>
+#include <algorithm>
 
 std::vector<GameObject *> GameObject::_allObjects;
 
@@ -50,17 +51,7 @@ void GameObject::SetActive(bool active) {
     _activeSelf = active;
 }
 
-template<typename T>
-T *GameObject::GetComponent() {
-    // TODO  Replace vector with map ? because dynamic cast is expensive
-    // https://stackoverflow.com/a/55608393
-    T* result = nullptr;
-    for(Component* comp : _components){
-        result = dynamic_cast<T*>(comp);
-        if(result){break;}
-    }
-    return result;
-}
+
 
 const bool &GameObject::activeSelf() const {
     return _activeSelf;
@@ -195,7 +186,7 @@ void GameObject::Destroy(GameObject &object) {
 
 void GameObject::UnregisterObject(GameObject &object) {
     std::cout << "Delete " << object.name() << " to global list" << std::endl;
-    auto listIt = std::find(_allObjects.begin(), _allObjects.end(), object);
+    auto listIt = std::find(_allObjects.begin(), _allObjects.end(), &object);
     _allObjects.erase(listIt);
 }
 
