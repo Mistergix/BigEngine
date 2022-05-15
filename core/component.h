@@ -9,6 +9,7 @@
 #include <iostream>
 #include "object.h"
 
+
 class GameObject;
 
 #define REGISTER_DECLARATION_TYPE(NAME) \
@@ -23,6 +24,7 @@ DerivedComponentTable NAME::regTable(#NAME);
 
 class Component : public Object{
 public:
+    std::string& name() override;
     virtual void OnStart();
     virtual void OnUpdate(double deltaTime);
     virtual void OnPhysicsUpdate(double physicsDeltaTime);
